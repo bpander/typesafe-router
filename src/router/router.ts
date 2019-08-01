@@ -28,7 +28,9 @@ type Branch<T extends Route, TReturnType> = [
   T, (params: Params<T>) => TReturnType,
 ];
 
-export const branch = <T extends PathPart<string>[], TReturnType>(route: T, hit: (params: Params<T>) => TReturnType): Branch<T, TReturnType> => {
+export function branch<T extends string[], TReturnType>(route: T, hit: () => TReturnType): Branch<T, TReturnType>;
+export function branch<T extends Route, TReturnType>(route: T, hit: (params: Params<T>) => TReturnType): Branch<T, TReturnType>;
+export function branch<T extends (string[] | Route), TReturnType>(route: T, hit: (...args: any[]) => TReturnType) {
   return [ route, hit ];
 };
 

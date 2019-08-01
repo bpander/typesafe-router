@@ -8,9 +8,9 @@ console.log(asString(INDEX));
 console.log(asString(USER, { umbrellaId: '123', userId: '456' }));
 
 const branches = [
-  branch(USER, params => params),
-  branch(UMBRELLA, params => params),
-  branch(INDEX, params => params), // FIXME: This doesn't enforce params as an empty object
+  branch(USER, params => params.userId),
+  branch(UMBRELLA, params => params.umbrellaId),
+  branch(INDEX, () => 'index'),
 ];
 console.log(switchRoute('/umbrella/123/user/456', branches));
 console.log(switchRoute('/umbrella/123', branches));
