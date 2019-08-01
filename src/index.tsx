@@ -1,8 +1,17 @@
-import { asString, param } from 'router/router';
+import { asString, switchRoute, param, branch } from 'router/router';
 
-const indexRoute: string[] = [];
-const umbrellaRoute = [ 'umbrella', param('umbrellaId') ];
-const userRoute = [ ...umbrellaRoute, 'user', param('userId') ];
+const INDEX: string[] = [];
+const UMBRELLA = [ 'umbrella', param('umbrellaId') ];
+const USER = [ ...UMBRELLA, 'user', param('userId') ];
 
-console.log(asString(indexRoute));
-console.log(asString(userRoute, { umbrellaId: '123', userId: '456' }));
+console.log(asString(INDEX));
+console.log(asString(USER, { umbrellaId: '123', userId: '456' }));
+
+const branches = [
+  branch(USER, params => params),
+  branch(UMBRELLA, params => params),
+  branch(INDEX, params => params), // FIXME: This doesn't enforce params as an empty object
+];
+console.log(switchRoute('/umbrella/123/user/456', branches));
+console.log(switchRoute('/umbrella/123', branches));
+console.log(switchRoute('/', branches));
